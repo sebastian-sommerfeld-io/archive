@@ -1,0 +1,147 @@
+= Guidelines and Conventions
+
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+
+CAUTION: todo ...
+
+== Global Conventions for all Projects
+Lint everything ... Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+
+CAUTION: todo ...
+
+=== Git Conventions
+==== Commits
+Commit messages need a prefix to indicate what the commit is about. If possible, reference a Jira ticket as well.
+
+* Prefix `docs` = Updates to documentation (Asciidoc, incline comments, ...)
+* Prefix `feat` = Feature development
+* Prefix `fix` = Bugfixes
+* Prefix `refactor` = Refactoring changes that don't ship features directly
+
+==== Branch Stategy and Versioning
+IMPORTANT: Develop everything in branches! Avoid pushes to the main branch. Use Pull Requests (Github) or Merge Requests (Gitlab) to sync changes into main.
+
+. The `main` branch represents the latest stable codebase which is ready for release. Prefer the name `main` over `master`.
+. Since my projects are small, trunk-based is the preferred way of handling branches. There are no other mandatory branches.
+. Branchnames need a prefix to show their intention (e.g. `feat/<NAME>`). Use the same prefixes as with git commits (`docs`, `feat`, `fix` or `refactor`). There is no need for other prefixes. Add the IDs of the Jira issues to the branchname wherever possible. Doing this means one Jira issue represents one feature (for large features, use the ID of the epic).
+. When approaching a release, a dedicated release branch is created where bugfixes, docs generation and finetuning take place. The release branch contains the version in its name (`release/v0.1.1` or for non-production releases `release/v0.1.1-SNAPSHOT`) The tag is created from this branch. Before tagging the release all changes from the release branch are merged into `main`. Addionally some hand-picked commits can be merged into the release branch.
+
+image:GUIDELINES:branching-and-versioning.drawio.png[]
+
+[start=5]
+. Every merge into `main` means the feature must be production-ready!
+
+=== Linters
+The link:https://github.com/sebastian-sommerfeld-io/infrastructure[Infrastructure Repository] contains ready-to-use linter definitions which other projects can download and use (see link:https://github.com/sebastian-sommerfeld-io/infrastructure/blob/main/lint.sh[lint.sh]).
+
+== CICD Pipelines
+Use link:https://docs.github.com/en/actions/guides[Github Actions] as CICD tool as much as possible. Avoid setting up a dedicated Jenkins machine.
+
+=== Good Practices
+==== Set timeouts for workflows
+By default, GitHub Actions kills workflows after 6 hours if they have not finished by then. Many workflows don't need nearly as much time to finish, but sometimes unexpected errors occur or a job hangs until the workflow run is killed 6 hours after starting it. Therefore it's recommended to link:https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions#jobsjob_idtimeout-minutes[specify a shorter timeout].
+
+The ideal timeout depends on the individual workflow but 30 minutes is typically more than enough for the workflows used in Exercism repos.
+
+This has the following advantages:
+
+. PRs won't be pending CI for half the day, issues can be caught early or workflow runs can be restarted.
+. The number of overall parallel builds is limited, hanging jobs will not cause issues for other PRs if they are cancelled early.
+
+[source, yaml]
+----
+jobs:
+  configlet:
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    steps:
+      - [...]
+----
+
+==== How to Handle Secrets in GitHub Actions?
+The worst possible way to handle secrets is to hard code them alongside the CI/CD pipeline code. Regardless of if the GitHub repository where the code is located was marked as private or company-internal, it's a big security risk to have secrets stored as plain text. That’s because it’s near impossible to control the access and usage after someone clones the repository to their local machine.
+
+A good practice is to leverage the link:https://docs.github.com/en/actions/reference/encrypted-secrets[GitHub encrypted secrets] functionality. This feature enables sensitive data to be encrypted in the GitHub repository (or organization) settings and used as environment variables in the CI/CD pipeline code. This practice limits the access to secrets to only the authorized GitHub runners, preventing sensitive information to be spread among multiple developer machines when cloning repositories. Furthermore, the GitHub secrets feature comes with protection capabilities that prevent attempts to log or print the environment variable value by automatically redacting them to avoid accidental leakage.
+
+==== Third Party Actions
+When using third party actions rely on the link:https://github.com/actions[actions provided by Github] as much as possible. Before using actions outside of this collection, check if the action is still actively maintained.
+
+== Docker Images
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+
+CAUTION: todo ...
+
+=== Build Docker Images
+* Use multistage builds as much as possible ... Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+* Always validate Dockerfiles before building the image using `docker run -i --rm hadolint/hadolint:latest < Dockerfile`
+
+CAUTION: todo ...
+
+=== Version Tags
+include::GUIDELINES:partial$docker-tag-policy.adoc[]
+
+== Infrastructure (as Code) Conventions
+No installation is done completely by hand. Although installations that normally take place only once don't need to be fully automated (e.g. the virtualization server). These installations need a full documentation in order to re-install the machines properly.
+
+These requirements are common to all nodes (physical and virtual). They share the same basic setup. These requirements form the foundation for everything. A single nodes itself might need to meet additional requirements specific to the respective use case.
+
+=== Operating System
+By default all servers are running some flavor of link:https://www.debian.org/index.html[Debian]. Normally the Operating System of choice is link:https://ubuntu.com[Ubuntu]. RasPi nodes use Ubuntu server. RasPi nodes with a desktop environment may use Raspberry Pi OS (not Ubuntu for performance reasons).
+
+=== SSH Keys
+Avoid creating multiple keypairs for a single machine wherever possible! Use the `id_rsa` / `id_rsa.pub` keypair from the respective machine! This reduces the need to handle too many different keypairs on link:http://www.github.com[Github] and link:http://www.gitlab.com[Gitlab] and on local network nodes. 
+
+Don't share keypairs! Every machine gets its own set of public/private keys.
+
+Never copy private keys to another machine! The only place a private key should reside is on the one machine it is intended for.
+
+When copying public keys to another machine (for whatever usecase), rename the public key file to `<SOURCE_HOSTNAME>_id_rsa.pub`. Take a look at alternative solutions and make sure that copying public key files is the best way to go. For e.g. password-less ssh connections it is better to add the public key to the `authorized_keys` file.
+
+Keep in mind that virtual machines are other machines as well. Treat them the same way as physical machines.
+
+=== Ansible
+Ansible is designed to configure both Unix-like systems as well as Microsoft Windows. Ansible is agentless, relying on temporary remote connections via SSH. The Ansible control node runs on most Unix-like systems that are able to run Python, including Windows with WSL installed.
+
+Each node utilizes the same basic configuration. This basic provisioning is done via Ansible.
+
+. Set up the same default user and password for all nodes
+. Add config to .bashrc of default user (prompt + aliases)
+. Set up the same basic directory structure for all nodes
+. Set up password-less SSH connections from xref:ROOT:workstations/kobol/index.adoc[] using kobols `id_rsa.pub` key
+
+CAUTION: todo ... how to set the hostname? Hostname "caprica" is not set by Ansible. How do I handle this for RasPi nodes?
+
+=== Chef Inspec
+
+Chef InSpec is an open-source framework for testing and auditing your applications and infrastructure. Chef InSpec works by comparing the actual state of your system with the desired state that you express in easy-to-read and easy-to-write Chef InSpec code. Chef InSpec detects violations and displays findings in the form of a report, but puts you in control of remediation.
+
+https://megamorf.gitlab.io/cheat-sheets/inspec/
+
+CAUTION: todo ... adopt information from the link above
+
+=== Terraform
+Terraform manages external resources (such as public cloud infrastructure, private cloud infrastructure, network appliances, software as a service, and platform as a service) with "providers". HashiCorp maintains an extensive list of official providers, and can also integrate with community-developed providers. Users can interact with Terraform providers by declaring resources or by calling data sources. Rather than using imperative commands to provision resources, Terraform uses declarative configuration to describe the desired final state. Once a user invokes Terraform on a given resource, Terraform will perform CRUD actions on the user's behalf to accomplish the desired state. The infrastructure as code can be written as modules, promoting reusability and maintainability.
+
+. General conventions
+.. Use `_` (underscore) instead of `-` (dash) everywhere (resource names, data source names, variable names, outputs, ...).
+.. Prefer to use lowercase letters and numbers (even though UTF-8 is supported).
+. Resource and data source arguments
+.. Do not repeat resource type in resource name (not partially, nor completely): use `resource "aws_route_table" "public" {}`, don't use `resource "aws_route_table" "public_route_table" {}`.
+.. Always use singular nouns for names.
+. Variables
+.. Use the plural form in a variable name when type is list(...) or map(...).
+.. Prefer using simple types (`number`, `string`, `list(...),` `map(...)`, `any`) over specific type like `object()` unless you need to have strict constraints on each key.
+
+==== DigitalOcean: When to use App Platform
+The Docker applications use link:https://docs.digitalocean.com/products/app-platform[DigitalOceans App Platform]. App Platform is a Platform-as-a-Service (PaaS) offering that allows developers to publish code directly to DigitalOcean servers without worrying about the underlying infrastructure.
+
+As long as there are no performans limitations or the running costs of your application landspace get to expensive, use App Platform fpr Docker deployments.
+
+==== DigitalOcean: When Not to Use App Platform
+While you can control the scaling of your app, manage the individual services that comprise your app, and integrate databases using App Platform, that may not be enough. App Platform is optimized for ease of code deployment rather than deep customization of the underlying infrastructure. Teams that require more control over their production environment and the design and behavior of their infrastructure may prefer another compute option.
+
+. link:https://docs.digitalocean.com/products/kubernetes[DigitalOcean Kubernetes] gives users control of a managed Kubernetes cluster that can run their container-based applications. It supports private registries, autoscaling, and push-to-deploy (through GitHub actions). It also provides a DigitalOcean-hosted instance of the Kubernetes dashboard for each cluster, and replaces the concept of “master nodes” with a node pool that manages capacity for you, resulting in a Kubernetes experience that is significantly simpler than the native experience.
+. You can build your own infrastructure solution that uses link:https://docs.digitalocean.com/products/droplets/[Droplets] (Linux based virtual machines) for compute capacity. Common techniques and workflows for configuration management tools like Terraform and Ansible are covered in the link:https://github.com/digitalocean/navigators-guide/releases[Navigator's Guide]. You can also get a sense of how the various products work together by reading the link:https://www.digitalocean.com/business[Solutions guides].
+
+==== DigitalOcean: When to use Droplets
+Use Droplets where there is a need for a real virtual machine. Container deployments should use the DigitalOcean App Platform.

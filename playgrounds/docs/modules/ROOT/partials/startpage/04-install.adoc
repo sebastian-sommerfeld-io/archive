@@ -1,0 +1,2 @@
+== Install
+Each Vagrantbox comes with its own set of dependencies and installation instructions. Common to all Vagrantboxes is the need for Virtualbox and Vagrant on the host machine. For more information take a look at the respective Vagrantbox.

@@ -1,0 +1,11 @@
+:project-name: playgrounds
+:url-project: https://github.com/sebastian-sommerfeld-io/{project-name}
+
+Playground, Sandboxes and Proof-of-Concept environments in Vagrantboxes and/or Docker containers for testing, learning and evaluation purposes.
+
+[cols="1,4", options="header"]
+|===
+|What |Where to find
+|Repository |{url-project}
+|Documentation |https://docs.cloud.sommerfeld.io/{project-name}-docs/main
+|===

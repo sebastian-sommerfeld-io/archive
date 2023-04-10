@@ -1,0 +1,521 @@
+{
+	"info": {
+		"_postman_id": "8a490637-03d5-4416-92cd-8a86258c9cc0",
+		"name": "Jira API Calls",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "index",
+			"item": [
+				{
+					"name": "reindex",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/rest/api/2/reindex?type=FOREGROUND",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"rest",
+								"api",
+								"2",
+								"reindex"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "FOREGROUND"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reindex info",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/rest/api/2/reindex",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"rest",
+								"api",
+								"2",
+								"reindex"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "#12 List projects for a given user",
+			"item": [
+				{
+					"name": "Show all groups for a given user",
+					"item": [
+						{
+							"name": "1 - get groups",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/rest/api/2/groups/picker",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"rest",
+										"api",
+										"2",
+										"groups",
+										"picker"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "2 - get users from group",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/rest/api/2/group/member?groupname=foxhound",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"rest",
+										"api",
+										"2",
+										"group",
+										"member"
+									],
+									"query": [
+										{
+											"key": "groupname",
+											"value": "foxhound"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Show all users for a project",
+					"item": [
+						{
+							"name": "0 - get single user (exists?)",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/rest/api/2/user?username=cloud",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"rest",
+										"api",
+										"2",
+										"user"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "cloud"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "1 - get all projects",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/rest/api/2/project",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"rest",
+										"api",
+										"2",
+										"project"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "2 - get single project",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/rest/api/2/project/SHINRA",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"rest",
+										"api",
+										"2",
+										"project",
+										"SHINRA"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "3 - get users and groups for a role",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/rest/api/2/project/10001/role/10002",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"rest",
+										"api",
+										"2",
+										"project",
+										"10001",
+										"role",
+										"10002"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "4 - get users from group",
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "admin",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8080/rest/api/2/group/member?groupname=shinra",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"rest",
+										"api",
+										"2",
+										"group",
+										"member"
+									],
+									"query": [
+										{
+											"key": "groupname",
+											"value": "shinra"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "license",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/rest/plugins/applications/1.0/installed/jira-software/license",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rest",
+						"plugins",
+						"applications",
+						"1.0",
+						"installed",
+						"jira-software",
+						"license"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "server info",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/rest/api/2/serverInfo?doHealthCheck=true",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rest",
+						"api",
+						"2",
+						"serverInfo"
+					],
+					"query": [
+						{
+							"key": "doHealthCheck",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

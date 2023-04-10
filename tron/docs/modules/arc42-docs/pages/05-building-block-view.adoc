@@ -1,0 +1,52 @@
+= 05 - Building Block View
+:description: Mandatory overview of your source code by making its structure understandable through abstraction.
+
+====
+The building block view shows the static decomposition of the system into building blocks (modules, components, subsystems, classes, interfaces, packages, libraries, frameworks, layers, partitions, tiers, functions, macros, operations, data structures, ...) as well as their dependencies (relationships, associations, ...)
+====
+
+Following the link:https://go.dev/solutions/clis[official guidelines from the Go website], the Cobra library is used to build a CLI app.
+
+[quote, Go Website]
+____
+Cobra is both a library for creating powerful modern CLI applications and a program to generate applications and CLI applications in Go. Cobra powers most of the popular Go applications including CoreOS, Delve, Docker, Dropbox, Git Lfs, Hugo, Kubernetes, and many more. With integrated command help, autocomplete and documentation “[it] makes documenting each command really simple,” says Alex Ellis, founder of OpenFaaS.
+____
+
+== Whitebox Overall System
+// Here you describe the decomposition of the overall system using the following white box template. It contains
+
+// * an overview diagram
+// * a motivation for the decomposition
+// * black box descriptions of the contained building blocks. For these we offer you alternatives:
+// ** use _one_ table for a short and pragmatic overview of all contained building blocks and their interfaces
+// ** use a list of black box descriptions of the building blocks according to the black box template (see below).
+// ** Depending on your choice of tool this list could be sub-chapters (in text files), sub-pages (in a Wiki) or nested elements (in a modeling tool).
+// * (optional:) important interfaces, that are not explained in the black box templates of a building block, but are very important for understanding the white box. Since there are so many ways to specify interfaces why do not provide a specific template for them.
+// ** In the worst case you have to specify and describe syntax, semantics, protocols, error handling, restrictions, versions, qualities, necessary compatibilities and many things more.
+// ** In the best case you will get away with examples or simple signatures.
+
+// _**<Overview Diagram>**_
+
+// Motivation::
+// _<text explanation>_
+
+// Contained Building Blocks::
+// _<Description of contained building block (black boxes)>_
+
+// Important Interfaces::
+// _<Description of important interfaces>_
+
+// Insert your explanations of black boxes from level 1:
+
+// If you use tabular form you will only describe your black boxes with name and
+// responsibility according to the following schema:
+
+// [cols="1,2" options="header"]
+// |===
+// |**Name** |**Responsibility**
+// |_<black box 1>_ |_<Text>_
+// |_<black box 2>_ |_<Text>_
+// |===
+
+// If you use a list of black box descriptions then you fill in a separate black box template for every important building block .
+// Its headline is the name of the black box.

@@ -1,0 +1,92 @@
+= Server: caprica
+Sebastian Sommerfeld <sebastian@sommerfeld.io>
+:hostname: caprica
+include::ROOT:partial$generated/ansible/caprica-vars.adoc[]
+
+include::ROOT:partial$badges/homelab.adoc[]
+
+Setup, configuration and documentation for my local toolserver which also acts as a testing- and staging-ground for my container images. The setup follows an infrastructure as code approach. This machines takes care of Docker images and Vagrantboxes and handles some automation tasks.
+
+[cols="1,3a", options="header"]
+|===
+|Key |Value
+|Hostname |{hostname} (FQDN = {hostname}.fritz.box)
+|OS |Ubuntu Server 22.04
+|User (Password) |{user} ({pass})
+|Hardware |Lenovo Think Centre (Core i5, 126GB RAM)
+|===
+
+== Requirements Overview
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+
+CAUTION: todo ...
+
+== Quality Goals
+. The whole setup, all my Vagrantboxes and all Docker images is Infrastructure as Code.
+. Software installations through the classic package managers like `apt` should be avoided. As much as possible should run inside docker containers. This is true for the host machine as well as Vagrantboxes.
+
+== Building Block View / Whitebox Overall System
+=== Docker Stack: Ops
+Expose metrics for system monitoring. See xref:ROOT:raspi/prometheus/index.adoc[Raspi Prometheus] for more monitoring information.
+
+include::ROOT:partial$generated/ansible/caprica-docker-compose-stack-ops.adoc[]
+
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. 
+
+=== Docker Stack: sommerfeld-io
+This machine acts as a staging ground for my webapp images hosted on link:https://hub.docker.com/u/sommerfeldio[DockerHub]. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. 
+
+include::ROOT:partial$generated/ansible/caprica-docker-compose-stack-sommerfeld-io.adoc[]
+
+All images from this stack are always pulled to make sure the latest version is running.
+
+== Install
+=== Prepare bootable USB stick and install Ubuntu
+. Download Ubuntu server from the link:https://ubuntu.com/download/server[Ubuntu website] (use Option 2: Manual server installation). Use Ubuntu Server 22.04 LTS or higher.
+. Create a bootable USB stick from the downloaded iso image with a tool like link:https://www.balena.io/etcher[Etcher] or the Startup Disk Creator (shipped with Ubuntu).
+. Install machine from stick (the setup wizard takes care of the hostname, network settings, ssh, ...)
+.. When prompted for a user and password, use the same information as in kobol. The default user `{user}` is created later on when provisioning the system using Ansible.
+.. Remember to install and activate the OpenSSH server when the wizard prompts for this!
+.. Do not install any futher software packages. Installations take place later on when provisioning the system using Ansible.
+. Test connecting to `caprica` via `ssh sebastian@caprica` and `ssh sebastian@caprica.fritz.box` (with sebastian being the user created while installing the OS). Make sure to test both hostnames (to ensure both are added to your `~/.ssh/known_hosts`)!
+
+=== Provision System
+. Run `src/main/workstations/ansible.sh` from kobol to provision the machine.
+
+==== Tasks performed by Ansible Playbook
+include::ROOT:partial$generated/ansible/caprica-ansible-playbook-tasks.adoc[]
+
+=== Additional Configs
+. Read public key `id_rsa.pub` for user "seb" and authorize key on link:http://www.github.com[Github] and link:http://www.gitlab.com[Gitlab].
+. Add public key to other machines to allow password-less ssh connections. TODO -> PLACE COMMAND
+
+CAUTION: todo ...
+
+== Usage
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+
+CAUTION: todo ...
+
+=== Run Services
+Services are defined in a docker-compose.yml file. The compose files are grouped into folders representing their respective set of usecases.
+
+Controlling these services is done from host `kobol`. Deploying to the remote node `caprica` is done using DOCKER_HOST environment variable to set up the target engine. link:https://www.docker.com/blog/how-to-deploy-on-remote-docker-hosts-with-docker-compose[Docker Contexts] is another possibility but not used because the test environment `caprica-test` is using DHCP instead of a static IP.
+
+CAUTION: todo ... how do I run the deployment? Which script? Something from src/main/workstations/caprica ... how do I run the test script?
+
+==== Automated Tests
+Run `src/test/workstations/caprica/test-setup.sh` to startup a Vagrantbox, run all Ansible playbooks for `caprica` inside the Vagrantbox `caprica-test` and run tests to check the installation. Inside `caprica-test` the docker services are tested as well.
+
+== Architecture Decisions
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+
+CAUTION: todo ... (Ubuntu with Vagrant vs Proxmox ???) -> Decision = Don't use Vagrant at all and run containers directly (because Jenkins should be able to start/stop Vagrantboxes)?!
+
+== Risks and Technical Debts
+Scale for Probability and Impact: Low, Medium and High
+
+[cols="1,3,5,1,1,1", options="header"]
+|===
+|# |Title |Description |Probability |Impact |Response
+|{counter:usage} |none |none |none |none |none ||none
+|===

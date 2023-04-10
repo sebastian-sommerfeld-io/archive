@@ -1,0 +1,3 @@
+* xref:index.adoc[]
+* External Links +++<i class="fa fa-file-alt"></i>+++
+** link:https://gist.github.com/sebastian-sommerfeld-io[Code Snippets -> Github Gist +++<i class="fa fa-file-alt"></i>+++]

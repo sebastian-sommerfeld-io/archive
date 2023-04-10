@@ -1,0 +1,8 @@
+Sebastian Sommerfeld <sebastian@sommerfeld.io>
+:description: Training project to learn about Go and TDD.
+:project-name: tron
+:url-project: https://github.com/sebastian-sommerfeld-io/{project-name}
+:github-actions-url: {url-project}/actions/workflows
+:job-ci: ci.yml
+:job-cd: cd.yml
+:badge: badge.svg

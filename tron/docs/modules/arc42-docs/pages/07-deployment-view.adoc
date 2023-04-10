@@ -1,0 +1,12 @@
+= 07 - Deployment View
+:description: Describe technical infrastructure used to execute your system and mappings of (software) building blocks to that infrastructure elements
+
+The deployment view of the Tron app is focused on describing the systems and processes used to deploy the application into production. The Tron app relies heavily on automation through GitHub Actions for its Continuous Integration (CI) and Continuous Deployment (CD) pipelines.
+
+The CI pipeline is triggered on every code change and runs a series of tests and checks to ensure the code is free of errors and meets the quality requirements set forth in the project. GitHub Actions is used to automate the build process, running the tests, and ensuring that code meets the defined code standards.
+
+The CD pipeline is also automated through GitHub Actions, and it releases the the Tron app and  deploys the container images to DockerHub for public use. The CD pipeline does not build and/or package the application but takes the latest container image which was successfully built by the CI pipeline and releases this image as `latest` and as the respective version (e.g.`1.2.3` ). This way it is ensured that the published image is the image that was tested in the preceding pipelines. This automation ensures that the deployment process is consistent, reliable and reproducible and reduces the potential for human error.
+
+In addition to the CI/CD pipelines, GitHub Actions is also used to automate other aspects of the Tron app deployment like creating and organizing Github issues and auto-generating documentation.
+
+Overall, the deployment view of the Tron app emphasizes the importance of automation and continuous improvement in the deployment process. GitHub Actions plays a critical role in the Tron app deployment, ensuring that the app is built, tested, and deployed consistently and reliably in different environments.

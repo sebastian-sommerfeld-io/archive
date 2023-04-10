@@ -1,0 +1,41 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+IMAGE_NAME = "ubuntu/jammy64" # jammy = 22.04
+HOSTNAME = "caprica-test"
+
+VAGRANT_COMMAND = ARGV[0]
+
+#
+# Vagrantbox "caprica-test"
+# Acts as a staging ground for the physical machine "caprica".
+# Used for automated testing of provisioning and configuration done by Ansible.
+#
+Vagrant.configure(2) do |config|
+
+    config.vm.box = IMAGE_NAME
+    config.vm.hostname = HOSTNAME
+    config.vm.network :private_network, type: "dhcp"
+
+    config.vm.provider "virtualbox" do |v|
+        v.memory = 2048
+        v.cpus = 2
+        v.customize ["modifyvm", :id, "--groups", "/vagrantboxes"]
+        v.name = HOSTNAME
+    end
+
+    config.vm.provision "ansible" do |ansible|
+        ansible.verbose = "v"
+        ansible.playbook = "../../../main/workstations/caprica/provision/ansible-playbook.yml"
+    end
+
+    # Don't generate SSH keys -> don't override the keys provisioned by ansible, new keys come from ansible playbook
+    config.ssh.insert_key = false
+    config.ssh.private_key_path = ["~/.vagrant.d/insecure_private_key", "~/.ssh/id_rsa"]
+
+    # Provision box as user "vagrant", but connect as different user (when running `vagrant ssh`)
+    if VAGRANT_COMMAND == "ssh"
+        config.ssh.username = 'seb'
+    end
+
+end

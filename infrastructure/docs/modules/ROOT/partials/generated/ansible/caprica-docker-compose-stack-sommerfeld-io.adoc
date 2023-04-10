@@ -1,0 +1,6 @@
+[cols="2,4,1,3,1", options="header"]
+|===
+|Container Name |Image |URL |Description |Restart
+|website |sommerfeldio/website:latest |http://caprica.fritz.box:8000 |Image used for www.sommerfeld.io |unless-stopped
+|===
+

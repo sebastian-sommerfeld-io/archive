@@ -1,0 +1,17 @@
+---
+version: "3.3"
+services:
+
+  jira:
+    build: runtime
+    image: local/jira-software:test
+    container_name: jira
+    restart: unless-stopped
+    ports:
+      - 8080:8080
+    volumes:
+      - jiraVolume:/var/atlassian/application-data/jira
+      - /etc/timezone:/etc/timezone:ro
+
+volumes:
+  jiraVolume:

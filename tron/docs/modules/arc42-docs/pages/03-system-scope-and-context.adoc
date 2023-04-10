@@ -1,0 +1,10 @@
+= 03 - System Scope and Context
+:description: System scope and context delimits your system (i.e. your scope) from all its communication partners (neighboring systems and users).
+
+The Tron command-line tool has a limited system scope, as it is designed to be a standalone application that relies solely on a Jira instance to function. The app reads data from the Jira instance, but it does not rely on high availability. The Tron is intended to run as a command-line utility only.
+
+The Tron app is intended to stay loosely coupled from other systems, as there are currently no plans to integrate it with any other systems. The app is designed to be a lightweight tool that provides functionality specific to interacting with Jira, without the need for any additional dependencies or systems.
+
+This approach offers several benefits. First, the app can be easily installed and used without the need for complex configuration or integration with other systems. Second, the app's limited scope means that it can be developed and maintained more easily, as the focus is on providing specific functionality related to Jira. Finally, the loose coupling ensures that the app can be easily modified or extended without disrupting any other systems or dependencies.
+
+Overall, the limited scope of the Tron app provides a lightweight and easy-to-use tool for interacting with Jira, while also ensuring that the app remains simple to maintain and extend. By relying solely on a Jira instance, the app can provide a focused and streamlined approach to interacting with Jira data.

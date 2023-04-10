@@ -1,0 +1,28 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/go
+{
+	"name": "Go",
+	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+	"image": "mcr.microsoft.com/devcontainers/go:0-1.19-bullseye",
+
+	"customizations": {
+		"vscode": {
+			"settings": {},
+			"extensions": [
+				"streetsidesoftware.code-spell-checker",
+				"asciidoctor.asciidoctor-vscode",
+				"ms-azuretools.vscode-docker",
+				"aaron-bond.better-comments",
+				"pomdtr.markdown-kroki",
+				"timonwong.shellcheck",
+				"jebbs.plantuml",
+				"golang.go"
+			]
+		}
+	},
+
+	// Set docker network mode
+	"runArgs": [
+		"--network=host"
+	]
+}

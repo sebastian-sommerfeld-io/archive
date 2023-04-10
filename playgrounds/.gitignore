@@ -1,0 +1,15 @@
+.idea
+target
+node_modules
+.target
+.vagrant
+*.log
+
+# terraform
+.terraform*
+*.tfstate*
+
+# secrets
+*.token
+*.pass
+*.user

@@ -1,0 +1,40 @@
+= 04 - Solution Strategy
+:description: A short summary and explanation of the fundamental decisions and solution strategies, that shape system architecture.
+
+== Basic principles
+. Everything is written as code!
+. Every deployment etc. is done from a pipeline!
+. Everything is validated by linters / scanners!
+. Everything runs in Docker! This includes build artifacts as well as every tool which is used for development.
+
+== Project Structure
+The project organizes its sources with several folders:
+
+[cols="1,4", options="header"]
+|===
+|Directory |Description
+|`docs` |Project documentation in Asciidoc
+|`src/main/go` |The actual source code of the jiracli application
+|`src/main/postman` |Postman collections containing webservice calls
+|`src/test/acceptance-tests` |A Docker Compose configuration which starts a completely configured Jira instance and runs acceptance tests against this Jira instance.
+|`src/utils` |Utility modules which are used from other I(bash) scripts.
+|===
+
+== Code Styleguide
+The source code of this application follows the link:https://go.dev/doc/effective_go[Effective Go] guide from the Go Website.
+
+== Software Design Decision: Go
+Go is a statically-typed language that provides excellent performance and efficient memory usage. 
+
+One of the main reasons I've chosen Go is to learn and work in a Test-Driven Development (TDD) way. Go has a strong testing framework, which makes it easy to write unit tests, integration tests, and functional tests. TDD can help build a more robust and reliable application, as it helps catching bugs early on in the development process and helps applying a good software design.
+
+Another reason not to simply consume the Jira REST API (e.g. from bash scripts) is to encapsulate several REST API calls in a single command to hide complexity. Go has excellent support for building command-line applications, and you can easily use packages like link:https://github.com/spf13/cobra[Cobra] to build CLI applications with subcommands. With Cobra, Go provides a powerful library for creating powerful modern CLI applications. Cobra is used in many Go projects such as link:https://kubernetes.io[Kubernetes], link:https://gohugo.io[Hugo] and link:https://github.com/cli/cli[GitHub CLI] which represent a state-of-the-art blueprint for CLI applications. Go also has a rich set of libraries and packages for working with REST APIs.
+
+== Software Design Decision: Respond in plain text, return JSON when using `--json` flag
+The plain text output should be human-readable and should provide all the necessary information that a user needs to understand the result of the command. The output should be well-formatted, making it easy for the user to read, understand and use.
+
+A `--json` flag should be available for every command, providing the user with an option to receive the output in JSON format. This allows users to use the output in other programs or scripts that require JSON data. The JSON output should be well-structured, providing all the necessary information in a machine-readable format.
+
+By providing both plain text and JSON output options, the command-line tool becomes more versatile and can accommodate a wide range of users with varying requirements. The tool can also be integrated with other programs or systems, making it a valuable asset for any developer or system administrator.
+
+To ensure consistency and ease of use, the output format should be standardized across all commands in the tool. This means that the plain text output and JSON output should follow a specific format, making it easier for users to understand and parse the output.

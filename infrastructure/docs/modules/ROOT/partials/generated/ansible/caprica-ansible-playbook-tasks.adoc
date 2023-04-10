@@ -1,0 +1,27 @@
+. Perpare localhost (not remote machine) -> Copy maven wrapper script into place (ensure same versions on caprica as on localhost)
+. Create default user with ssh keypair
+. Config -> Set timezone
+. Config -> Copy motd
+. Config -> Copy git configuration
+. Config -> Write aliases to .bashrc
+. Config -> Write commands to .bashrc
+. Config -> Update bash prompt in .bashrc
+. Config -> Create directories
+. Config -> Copy wrapper-scripts (ensure same versions on caprica as on localhost)
+. Config -> Create symlinks from /usr/bin to wrapper-scripts
+. SSH config -> Copy SSH keys (allow ssh connects without password and `vagrant ssh` with non-default user)
+. SSH Config -> Set SSH key verification policy for IP range used by Vagrant (= copy .ssh/config file)
+. SSH config -> Add to authorized_keys (allow `vagrant ssh` with non-default user)
+. SSH config -> Change ownership of authorized_keys
+. Install required system packages
+. Install tool packages
+. Install Ansible
+. Docker Setup -> Add GPG apt key
+. Docker Setup -> Add apt repository
+. Docker Setup -> Install docker-ce and docker-compose
+. Docker Setup -> Install Docker Module for Python
+. Docker Setup -> Add default user to docker group
+. Virtualbox Setup -> Install Virtualbox and dependencies
+. Virtualbox Setup -> Set virtual machine folder
+. Vagrant Setup -> Install Vagrant and Vagrant plugins
+. Vagrant Setup -> Install Vagrant plugins

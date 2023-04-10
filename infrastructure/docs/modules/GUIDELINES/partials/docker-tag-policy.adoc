@@ -1,0 +1,8 @@
+Use the following pattern to assign versions to Docker images.
+
+. Version tag (e.g. `1.0.0`) = Image release (= the repository is tagged with v1.0.0)
+. `latest` = synonym for the latest released version
+. `stable` = synonym for latest (optional)
+. `ci-build` = build from branch (main or feature), possibly unstable
+. `release-candidate` = build from release branch
+. `dev` = tag used during development on localhost

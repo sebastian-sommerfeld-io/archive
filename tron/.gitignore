@@ -1,0 +1,25 @@
+.idea
+target
+node_modules
+.target
+.vagrant
+logs
+*.log
+yamllint-*
+
+# terraform
+.terraform
+.terraform.lock*
+*.tfstate*
+
+# secrets
+*.token
+*.pass
+*.user
+
+# sonarcloud.io
+.scannerwork
+src/main/go/go-code-coverage.out
+
+# project specific
+src/main/go/app-info.yml

@@ -1,0 +1,11 @@
+= 09 - Architecture Decisions
+:description: Important, expensive, large scale or risky architecture decisions including rationales.
+
+== Building and Running Tron Command-Line Tool with Docker
+The Tron command-line tool can be built and run using Docker without the need for any other installed software. All tools required for building the app, such as Go, run in Docker containers. Additionally, the Tron app itself is published as a Docker image, simplifying the build and deployment process.
+
+To build the Tron app, the Dockerfile included with the source code is used to build a Docker image. This Docker image includes all the necessary dependencies, such as Go and any required packages, and creates a clean build environment for the app.
+
+Once the Docker image is built, it can be used to run the Tron command-line tool. The Docker image contains the fully compiled Tron app, ready to be executed. Running the app in a Docker container ensures that it runs consistently and reliably, regardless of the underlying host operating system.
+
+The Tron app is published as a Docker image on DockerHub only. There are no other (binary) build-artifacts available. So you must use the Docker Image. This way the app can be easily  deployed to any environment supporting Docker. This eliminates the need to install the app on each individual host, reducing the risk of incompatibilities and simplifying the overall deployment process.

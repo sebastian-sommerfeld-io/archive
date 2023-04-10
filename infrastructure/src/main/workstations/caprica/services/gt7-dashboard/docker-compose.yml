@@ -1,0 +1,27 @@
+---
+version: "3.3"
+services:
+
+  api-adapter:
+    image: sommerfeldio/gt7-dashboard-api-adapter:ci-build
+    container_name: api-adapter
+    labels:
+      description: Gran Turosmo 7 Webservice Adapter
+      url: http://caprica.fritz.box:4242
+    restart: unless-stopped
+    pull_policy: always
+    ports:
+      - 4242:80
+
+  webapp:
+    image: sommerfeldio/gt7-dashboard-webapp:ci-build
+    container_name: webapp
+    labels:
+      description: Gran Turosmo 7 Dashboard Webapp
+      url: http://caprica.fritz.box:4201
+    restart: unless-stopped
+    pull_policy: always
+    ports:
+      - 4201:80
+    depends_on:
+      - api-adapter

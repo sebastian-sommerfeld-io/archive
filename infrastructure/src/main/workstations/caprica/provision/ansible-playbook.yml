@@ -1,0 +1,239 @@
+---
+#
+# This play is run with the already existing user (ubuntu or vagrant).
+#
+- name: Caprica main play
+  hosts: all
+  gather_facts: true
+  vars:
+    - default_username: seb
+    - default_password: start123
+    - vm_folder: "/home/{{ default_username }}/virtualmachines"
+    - default_file_permissions: u=rw,g=r,o=r
+  become: true
+  tasks:
+
+    ####  default user - create + configure  ######################################################
+
+    - name: "Create default user with ssh keypair"
+      ansible.builtin.user:
+        name: "{{ default_username }}"
+        password: "{{ default_password | password_hash('sha512', 'gz4a83m5mz2x') }}"
+        generate_ssh_key: true
+        ssh_key_type: rsa
+        ssh_key_bits: 4096
+        ssh_key_file: .ssh/id_rsa
+        shell: /bin/bash
+        groups: adm, sudo
+        append: true
+        state: present
+        create_home: true
+
+    ####  config  #################################################################################
+
+    - name: Config -> Set timezone
+      timezone:
+        name: Europe/Berlin
+
+    - name: Config -> Copy motd
+      ansible.builtin.copy:
+        src: assets/motd-caprica.txt
+        dest: /etc/motd
+        mode: ${{ default_file_permissions }}
+
+    - name: Config -> Copy git configuration
+      ansible.builtin.copy:
+        src: assets/.gitconfig
+        dest: "/home/{{ default_username }}/.gitconfig"
+        owner: "{{ default_username }}"
+        group: "{{ default_username }}"
+        mode: ${{ default_file_permissions }}
+
+    - name: Config -> Write aliases to .bashrc
+      lineinfile:
+        dest: "/home/{{ default_username }}/.bashrc"
+        state: present
+        line: "{{ item }}"
+      with_items:
+        - alias ll="ls -alFh --color=auto"
+        - alias ls="ls -a --color=auto"
+        - alias grep="grep --color=auto"
+        - alias pull-all-repos="git all pull"
+        - export LOG_DONE="[\e[32mDONE\e[0m]"
+        - export LOG_ERROR="[\e[1;31mERROR\e[0m]"
+        - export LOG_INFO="[\e[34mINFO\e[0m]"
+        - export LOG_WARN="[\e[93mWARN\e[0m]"
+        - export Y="\e[93m" # yellow
+        - export P="\e[35m" # pink
+        - export D="\e[0m"  # default (= white)
+
+    - name: Config -> Write commands to .bashrc
+      lineinfile:
+        dest: "/home/{{ default_username }}/.bashrc"
+        state: present
+        line: "{{ item }}"
+      with_items:
+        - eval $(ssh-agent) > /dev/null
+
+    - name: Config -> Update bash prompt in .bashrc
+      lineinfile:
+        dest: "/home/{{ default_username }}/.bashrc"
+        regexp: '^PS1='
+        line: 'PS1="${debian_chroot:+($debian_chroot)}\[\033[01;36m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$(__git_ps1) \$ "'
+        state: present
+
+    - name: Config -> Create directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: "{{ default_username }}"
+        group: "{{ default_username }}"
+        mode: ${{ default_file_permissions }}
+      with_items:
+        - "/home/{{ default_username }}/repos"
+        - "/home/{{ default_username }}/tmp"
+        - "/home/{{ default_username }}/.ssh"
+        - "{{ vm_folder }}"
+
+    ####  default user - ssh config  ##############################################################
+
+    - name: SSH config -> Copy SSH public keys (allow ssh connects without password and `vagrant ssh` with non-default user)
+      ansible.builtin.copy:
+        src: ~/.ssh/{{ item.host_file }}
+        dest: "/home/{{ default_username }}/.ssh/{{ item.vm_file }}"
+        owner: "{{ default_username }}"
+        group: "{{ default_username }}"
+        mode: ${{ default_file_permissions }}
+      with_items:
+        - { host_file: 'id_rsa.pub', vm_file: 'kobol_id_rsa.pub' }
+
+    - name: SSH Config -> Set SSH key verification policy for IP range used by Vagrant (= copy .ssh/config file)
+      ansible.builtin.copy:
+        src: assets/.ssh/config
+        dest: "/home/{{ default_username }}/.ssh/config"
+        owner: "{{ default_username }}"
+        group: "{{ default_username }}"
+        mode: ${{ default_file_permissions }}
+
+    - name: SSH config -> Add to authorized_keys (allow `vagrant ssh` with non-default user)
+      # noqa: no-changed-when
+      ansible.builtin.shell: "cat /home/{{ default_username }}/.ssh/{{ item.vm }} >> /home/{{ default_username }}/.ssh/authorized_keys"
+      with_items:
+        - { host: 'id_rsa.pub', vm: 'kobol_id_rsa.pub' }
+      args:
+        executable: /bin/bash
+
+    - name: SSH config -> Change ownership of authorized_keys
+      file:
+        path: "/home/{{ default_username }}/.ssh/authorized_keys"
+        owner: "{{ default_username }}"
+        group: "{{ default_username }}"
+
+    ####  Install basic packages  #################################################################
+
+    - name: Install required system packages
+      # noqa: package-latest
+      apt:
+        pkg:
+          - acl
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+          - python3-pip
+          - python3-setuptools
+          - virtualenv
+        state: latest
+        update_cache: true
+
+    - name: Install tool packages
+      # noqa: package-latest
+      apt:
+        pkg:
+          - aptitude
+          - ncdu
+          - htop
+          - git
+        state: latest
+        update_cache: true
+
+    - name: Install Ansible
+      # noqa: package-latest
+      apt:
+        pkg:
+          - ansible
+        state: latest
+        update_cache: true
+
+    ####  Install docker  #########################################################################
+
+    - name: Docker Setup -> Add GPG apt key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Docker Setup -> Add apt repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu focal stable
+        state: present
+
+    - name: Docker Setup -> Install docker-ce and docker-compose
+      # noqa: package-latest
+      apt:
+        name:
+          - docker-ce
+          - docker-compose
+        state: latest
+        update_cache: true
+
+    - name: Docker Setup -> Install Docker Module for Python
+      pip:
+        name: docker
+
+    - name: Docker Setup -> Add default user to docker group
+      user:
+        name: "{{ default_username }}"
+        groups: docker
+        append: true
+
+    ####  Install vagrant + virtualbox  ###########################################################
+
+    - name: Virtualbox Setup -> Install Virtualbox and dependencies
+      # noqa: package-latest
+      apt:
+        pkg:
+          - virtualbox
+          - virtualbox-qt
+          - virtualbox-dkms
+        state: latest
+        update_cache: true
+
+    - name: Virtualbox Setup -> Set virtual machine folder
+      # noqa: command-instead-of-shell
+      # noqa: no-changed-when
+      ansible.builtin.shell: "vboxmanage setproperty machinefolder {{ vm_folder }}"
+      become_user: "{{ default_username }}"
+      args:
+        executable: /bin/bash
+
+    - name: Vagrant Setup -> Install Vagrant
+      # noqa: command-instead-of-module
+      # noqa: no-changed-when
+      ansible.builtin.shell: |
+        curl https://releases.hashicorp.com/vagrant/2.2.19/vagrant_2.2.19_x86_64.deb --output vagrant.deb
+        sudo dpkg -i vagrant.deb
+        rm vagrant.deb
+      args:
+        executable: /bin/bash
+
+    - name: Vagrant Setup -> Install Vagrant plugins
+      # noqa: no-changed-when
+      ansible.builtin.shell: |
+        echo "$USER"
+        vagrant plugin install vagrant-cachier
+        vagrant plugin install vagrant-vbguest
+        vagrant plugin install vagrant-docker-compose
+      become: yes
+      become_user: "{{ default_username }}"
+      args:
+        executable: /bin/bash

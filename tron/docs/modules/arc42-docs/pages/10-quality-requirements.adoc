@@ -1,0 +1,10 @@
+= 10 - Quality Requirements
+:description: This section contains all quality requirements with scenarios.
+
+. *Usability:* The Tron app should be highly usable and intuitive, with a user-friendly command-line interface and clear documentation. This includes support for common error messages that are easy to understand, and comprehensive documentation for all features.
+. *Maintainability:* The Tron app should be highly maintainable, with clear and well-documented code that is easy to read and modify. This includes adherence to coding standards, comprehensive unit tests (ideally as a by-product of following TDD), and automated testing and deployment processes.
+. *Code and Software Design Quality:* The Tron Go app should adhere to industry-standard coding practices and have high code quality. Test-driven development helps ensure the code is maintainable, readable and modularized.
+. *Continuous Integration:* The Tron Go app should use a continuous integration system that runs automated tests on every code change. This helps ensure that all new code changes do not introduce any bugs or regressions.
+. *Continuous Delivery:* The Tron Go app should use a continuous delivery system that runs automated tests for every release and removed the need of manual releases and deployments.
+. *Documentation:* The Tron Go app must have comprehensive documentation for all functions, methods, and packages. Additionally the app itself must ship with a proper technical- and user-documentation.
+. *Refactoring:* The Tron Go app may require refactoring in the future to add new features or to optimize existing ones. Test-driven development ensures that all code changes do not break existing functionality and that any refactoring is done safely and systematically.
