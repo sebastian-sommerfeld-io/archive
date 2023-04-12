@@ -1,0 +1,33 @@
+image: ubuntu:latest
+
+stages:
+  - verify
+
+shell-check:
+  image: koalaman/shellcheck-alpine:stable
+  stage: verify
+  before_script:
+    - shellcheck --version
+  script:
+    - shellcheck src/**/*.sh
+    - shellcheck src/**/**/**/*.sh
+
+validate-vagrant:
+  image: registry.gitlab.com/sommerfeld.sebastian/docker-vagrant/master:latest
+  stage: verify
+  script:
+    - vagrant --version
+    - cd src/main/kube-cluster && vagrant validate --ignore-provider
+
+lint-ansible:
+  image: pipelinecomponents/ansible-lint:latest
+  stage: verify
+  allow_failure: true
+  script:
+    - cd src/main/kube-cluster/kubernetes-setup && ansible-lint --force-color
+
+yamllint:
+  image: registry.gitlab.com/pipeline-components/yamllint:latest
+  stage: verify
+  script:
+    - yamllint .

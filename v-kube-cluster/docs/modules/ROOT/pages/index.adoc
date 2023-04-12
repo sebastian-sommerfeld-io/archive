@@ -1,0 +1,60 @@
+= v-kube-cluster
+:url-project: https://gitlab.com/sommerfeld.sebastian/v-kube-cluster
+:url-ci-pipelines: {url-project}/pipelines
+:img-ci-status: {url-project}/badges/master/pipeline.svg
+
+image:{img-ci-status}[CI Status (GitLab CI), link={url-ci-pipelines}]
+
+Virtual Kubernetes Cluster using Vagrant and Virtualbox.
+
+Repository -> +++<i class="fab fa-gitlab"></i>+++ https://gitlab.com/sommerfeld.sebastian/v-kube-cluster
+
+== How to Use
+
+. Start cluster using `src/main/start.sh`
+. Deploy all needed applications using `src/main/kube-deploy.sh` (see _src/main/kube-cluster/deploy_ for detailed deployment information)
+. Start kubectl proxy using `src/main/kube-proxy-on.sh` (Token to access the Dashboard application is written to _target/kubernetes-dashboard-token.txt_)
+. Stop cluster using `src/main/stop.sh`
+. Clean up everything using `src/main/clean.sh` -> all vagrant boxes and docker containers are deleted, next startup resets all services from scratch.
+
+.Local management console
+* link:https://github.com/kubernetes/dashboard[Application 'dashboard' must be deployed] and since the web UI can only be accessed using localhost address on the machine it runs on, link:https://upcloud.com/community/tutorials/deploy-kubernetes-dashboard[we need to have an SSH tunnel to the server].
+** Access Dashboard using URL http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/ and copied bearer token from console output
+
+== Setup
+=== Components
+List of services started by this project.
+
+. *Docker*
+.. Prometheus
+.. Blackbox Exporter
+.. Graylog
+.. Grafana
+.. Some DNS Server
+. *Vagrantboxes*
+.. Vagrant file to create a kubernetes master and N worker nodes.
+.. Ansible playbooks to provision the master and all worker nodes
+.. Application Deploments in scripts
+
+=== Adjustments and Fixes
+Additional setup steps and changes to the original guides needed to run all services from this project.
+
+* Cluster setup follows instructions from https://kubernetes.io/blog/2019/03/15/kubernetes-setup-using-ansible-and-vagrant
+** Changes to "master-playbook.yml"
+*** Added `create: yes` to step "Configure node ip" to avoid crashes during provisioning
+*** Changed URL and command in step "Install calico pod network"
+*** Changed location of generated join-command in step "Copy join command to local file"
+** Changes to "worker-node-playbook.yml"
+*** Added `create: yes` to step "Configure node ip" to avoid crashes during provisioning
+*** Changed location of generated join-command in step "Copy the join command to server location"
+
+== Log variables in scripts
+In order to see the log level at the beginning of a console line (from script output) add the following lines to your users .bashrc
+
+[source,bash]
+....
+export LOG_DONE="[\e[32mDONE\e[0m]"
+export LOG_ERROR="[\e[1;31mERROR\e[0m]"
+export LOG_INFO="[\e[34mINFO\e[0m]"
+export LOG_WARN="[\e[93mWARN\e[0m]"
+....

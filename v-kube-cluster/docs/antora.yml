@@ -1,0 +1,7 @@
+name: v-kube-cluster-docs
+title: v-kube-cluster Docs
+version: master
+start_page: ROOT:index.adoc
+nav:
+  - modules/ROOT/nav.adoc
+  - modules/api-docs-bash/nav.adoc

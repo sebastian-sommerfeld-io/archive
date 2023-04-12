@@ -1,0 +1,55 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+IMAGE_NAME = "ubuntu/focal64" # focal = 20.04. LTS | bento/ubuntu-16.04
+N = 3 # number of worker nodes
+
+Vagrant.configure("2") do |config|
+    config.ssh.insert_key = false
+
+    # master node
+    config.vm.define "v-k8s-master" do |master|
+        master.vm.box = IMAGE_NAME
+        master.vm.network "private_network", ip: "192.168.50.10"
+        master.vm.hostname = "v-k8s-master"
+
+        master.vm.provider "virtualbox" do |v|
+            v.memory = 2048
+            v.cpus = 2
+            v.name = "v-k8s-master"
+        end
+
+        master.vm.provision "ansible" do |ansible|
+            ansible.playbook = "kubernetes-setup/master-playbook.yml"
+            ansible.extra_vars = {
+                node_ip: "192.168.50.10",
+            }
+        end
+
+        master.vm.network "forwarded_port", guest: 8001, host: 8001
+        master.vm.provision "shell", path: "kubernetes-setup/bash-setup.sh"
+    end
+
+    # worker nodes
+    (1..N).each do |i|
+        config.vm.define "v-k8s-worker-#{i}" do |worker|
+            worker.vm.box = IMAGE_NAME
+            worker.vm.network "private_network", ip: "192.168.50.#{i + 10}"
+            worker.vm.hostname = "v-k8s-worker-#{i}"
+
+            worker.vm.provider "virtualbox" do |v|
+                v.memory = 2048
+                v.cpus = 2
+                v.name = "v-k8s-worker-#{i}"
+            end
+
+            worker.vm.provision "ansible" do |ansible|
+                ansible.playbook = "kubernetes-setup/worker-node-playbook.yml"
+                ansible.extra_vars = {
+                    node_ip: "192.168.50.#{i + 10}",
+                }
+            end
+            worker.vm.provision "shell", path: "kubernetes-setup/bash-setup.sh"
+        end
+    end
+end
