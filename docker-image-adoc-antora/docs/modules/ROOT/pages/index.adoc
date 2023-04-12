@@ -1,0 +1,5 @@
+= Docker Image: adoc-antora
+Sebastian Sommerfeld <sebastian@sommerfeld.io>
+include::ROOT:partial$vars.adoc[]
+
+include::ROOT:partial$README.adoc[]

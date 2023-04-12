@@ -1,0 +1,8 @@
+---
+name: docker-images-adoc-antora
+title: Docker Image adoc-antora
+version: main
+start_page: ROOT:index.adoc
+nav:
+  - modules/ROOT/nav.adoc
+  - modules/AUTO-GENERATED/nav.adoc
