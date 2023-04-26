@@ -94,16 +94,16 @@ function index() {
 case "$ARG" in
   "$START" )
     LOG_HEADER "Start stack"
-    docker-compose up --build -d
+    docker compose up --build -d
     index
   ;;
   "$LOGS" )
     LOG_HEADER "Show logs"
-    docker-compose logs
+    docker compose logs
   ;;
   "$STOP" )
     LOG_HEADER "Stop stack"
-    docker-compose down -v --rmi all --remove-orphans
+    docker compose down -v --rmi all --remove-orphans
   ;;
   "$UPDATE_DB" )
     LOG_HEADER "Update H2DB from a running Jira instance"

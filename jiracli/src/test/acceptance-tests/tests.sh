@@ -54,14 +54,14 @@ set -o nounset
 case "$ARG" in
   "$START" )
     LOG_HEADER "Start stack"
-    docker-compose up --build -d
+    docker compose up --build -d
   ;;
   "$LOGS" )
     LOG_HEADER "Show logs"
-    docker-compose logs
+    docker compose logs
   ;;
   "$STOP" )
     LOG_HEADER "Stop stack"
-    docker-compose down -v --rmi all --remove-orphans
+    docker compose down -v --rmi all --remove-orphans
   ;;
 esac

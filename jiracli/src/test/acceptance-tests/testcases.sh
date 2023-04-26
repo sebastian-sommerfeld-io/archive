@@ -3,7 +3,7 @@
 # @brief Integration tests triggered from Docker Compose.
 #
 # @description This script contains intergration test cases that are run against the Jira
-# instance defined in the docker-compose.yml from this test setup. The ``local/jiracli:dev``
+# instance defined in the docker compose.yml from this test setup. The ``local/jiracli:dev``
 # Docker image is started in a container and executes the testcases from this script against
 # a running Jira instance.
 #

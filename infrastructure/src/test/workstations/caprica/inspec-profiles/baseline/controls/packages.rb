@@ -65,7 +65,7 @@ control 'docker-packages' do
         it { should be_installed }
     end
 
-    describe package('docker-compose') do
+    describe package('docker compose') do
         it { should be_installed }
     end
 end

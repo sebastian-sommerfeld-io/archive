@@ -1,8 +1,8 @@
 #!/bin/bash
-# @file docker-compose-services.sh
-# @brief Start and stop docker-compose services.
+# @file docker compose-services.sh
+# @brief Start and stop docker compose services.
 #
-# @description This script starts and stops docker-compose services on the respective machine.
+# @description This script starts and stops docker compose services on the respective machine.
 # The script detects the the services depending on $HOSTNAME and then provides a select
 # menu to choose a stack for deployment.
 #
@@ -21,24 +21,24 @@ SERVICES_PATH="$HOSTNAME/services"
 STACK=""
 
 
-# @description Utility function to startup docker-compose services.
+# @description Utility function to startup docker compose services.
 function startup() {
   echo -e "$LOG_INFO Startup stack $P$STACK$D on $P$HOSTNAME$D"
-  docker-compose up -d
+  docker compose up -d
 }
 
 
-# @description Utility function to shutdown docker-compose services.
+# @description Utility function to shutdown docker compose services.
 function shutdown() {
   echo -e "$LOG_INFO Shutdown stack $P$STACK$D on $P$HOSTNAME$D"
-  docker-compose down -v --rmi all
+  docker compose down -v --rmi all
 }
 
 
-# @description Utility function to show docker-compose logs.
+# @description Utility function to show docker compose logs.
 function logs() {
   echo -e "$LOG_INFO Show logs for stack $P$STACK$D on $P$HOSTNAME$D"
-  docker-compose logs -f
+  docker compose logs -f
 }
 
 
@@ -59,7 +59,7 @@ echo -e "$LOG_INFO Deploy docker services for machine $P$HOSTNAME$D"
 (
   cd "$SERVICES_PATH" || exit
 
-  echo -e "$LOG_INFO Select the docker-compose stack"
+  echo -e "$LOG_INFO Select the docker compose stack"
   select s in */; do
     STACK="${s::-1}"
     break

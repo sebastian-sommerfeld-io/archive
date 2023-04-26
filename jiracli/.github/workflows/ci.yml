@@ -203,14 +203,14 @@ jobs:
         uses: actions/checkout@v3
       - name: Build Docker image and run acceptance tests
         # todo --------------------------------------------
-        # docker-compose logs probably runs to early
+        # docker compose logs probably runs to early
         # and hence cannot show data from jiracli container
         # todo --------------------------------------------
         run: |
           (
             cd src/test/acceptance-tests || exit
             ./tests.sh start
-            docker-compose logs | grep jiracli
+            docker compose logs | grep jiracli
           )
         shell: bash
       - name: Login to DockerHub

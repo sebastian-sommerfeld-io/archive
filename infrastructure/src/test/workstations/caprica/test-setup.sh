@@ -18,7 +18,7 @@ BOX_IP=""
 BOX_USER="seb"
 
 COMPOSE_PATH="src/main/workstations/caprica/services"
-COMPOSE_FILENAME="docker-compose.yml"
+COMPOSE_FILENAME="docker compose.yml"
 
 
 case $HOSTNAME in
@@ -76,14 +76,14 @@ function test() {
   echo -e "$LOG_INFO Test Docker installation"
   vagrant ssh -c "docker run --rm hello-world:latest"
 
-  echo -e "$LOG_INFO Test deployments: deploy docker-compose services to remote host"
+  echo -e "$LOG_INFO Test deployments: deploy docker compose services to remote host"
   (
     cd ../../../../ || exit # project root
 
     for d in "$COMPOSE_PATH"/*
     do
       echo -e "$LOG_INFO Deploy $d/$COMPOSE_FILENAME"
-      DOCKER_HOST="ssh://$BOX_USER@$BOX_IP" docker-compose -f "$d/$COMPOSE_FILENAME" up -d
+      DOCKER_HOST="ssh://$BOX_USER@$BOX_IP" docker compose -f "$d/$COMPOSE_FILENAME" up -d
     done
   )
 
@@ -181,7 +181,7 @@ function generateDocs() {
     echo "$tasks" > "$adoc"
   )
 
-  # from docker-compose.yml
+  # from docker compose.yml
   (
     cd ../../../../ || exit # project root
 
@@ -189,7 +189,7 @@ function generateDocs() {
     do
       compose="$d/$COMPOSE_FILENAME"
       stack=${d//*\/}
-      adoc="docs/modules/ROOT/partials/generated/ansible/caprica-docker-compose-stack-$stack.adoc"
+      adoc="docs/modules/ROOT/partials/generated/ansible/caprica-docker compose-stack-$stack.adoc"
 
       echo -e "$LOG_INFO Read services for stack $stack and generate asciidoc"
       echo -e "$LOG_INFO Compose file = $compose"

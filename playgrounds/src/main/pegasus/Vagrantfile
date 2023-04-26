@@ -39,8 +39,8 @@ Vagrant.configure(2) do |config|
         pegasus.vm.provision "shell", path: "provision/configure-pegasus.sh"
         pegasus.vm.provision "shell", path: "provision/ssh-keys.sh", privileged: false # Use default user (vagrant) instead of root
         pegasus.vm.provision :docker
-        pegasus.vm.provision :docker_compose, yml: "/vagrant/docker/services/ops/docker-compose.yml", run: "always"
-        #pegasus.vm.provision :docker_compose, yml: "/vagrant/docker/services/services/docker-compose.yml", run: "always"
+        pegasus.vm.provision :docker_compose, yml: "/vagrant/docker/services/ops/docker compose.yml", run: "always"
+        #pegasus.vm.provision :docker_compose, yml: "/vagrant/docker/services/services/docker compose.yml", run: "always"
         pegasus.vm.provision "shell", path: "provision/install/update-upgrade.sh"
         pegasus.vm.provision "shell", path: "provision/install/basic-packages.sh"
         pegasus.vm.provision "shell", path: "provision/install/java.sh"

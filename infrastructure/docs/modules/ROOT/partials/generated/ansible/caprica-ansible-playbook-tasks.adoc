@@ -18,7 +18,7 @@
 . Install Ansible
 . Docker Setup -> Add GPG apt key
 . Docker Setup -> Add apt repository
-. Docker Setup -> Install docker-ce and docker-compose
+. Docker Setup -> Install docker-ce and docker compose
 . Docker Setup -> Install Docker Module for Python
 . Docker Setup -> Add default user to docker group
 . Virtualbox Setup -> Install Virtualbox and dependencies

@@ -1,8 +1,8 @@
 #!/bin/bash
 # @file install-docker.sh
-# @brief Install docker and docker-compose.
+# @brief Install docker and docker compose.
 #
-# @description The script installs docker and docker-compose.
+# @description The script installs docker and docker compose.
 # For installation instructions, see https://docs.docker.com/engine/install/ubuntu/#install-using-the-convenience-script.
 #
 # ==== Arguments
@@ -21,7 +21,7 @@ echo -e "$LOG_DONE Installed docker"
 
 # echo -e "$LOG_INFO Install docker"
 # sudo apt-get install -y docker.io
-# sudo apt-get install -y docker-compose
+# sudo apt-get install -y docker compose
 # #sudo groupadd docker
 # sudo usermod -aG docker "$USER"
 # #newgrp docker

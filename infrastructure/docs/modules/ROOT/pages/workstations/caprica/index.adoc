@@ -29,14 +29,14 @@ CAUTION: todo ...
 === Docker Stack: Ops
 Expose metrics for system monitoring. See xref:ROOT:raspi/prometheus/index.adoc[Raspi Prometheus] for more monitoring information.
 
-include::ROOT:partial$generated/ansible/caprica-docker-compose-stack-ops.adoc[]
+include::ROOT:partial$generated/ansible/caprica-docker compose-stack-ops.adoc[]
 
 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. 
 
 === Docker Stack: sommerfeld-io
 This machine acts as a staging ground for my webapp images hosted on link:https://hub.docker.com/u/sommerfeldio[DockerHub]. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. 
 
-include::ROOT:partial$generated/ansible/caprica-docker-compose-stack-sommerfeld-io.adoc[]
+include::ROOT:partial$generated/ansible/caprica-docker compose-stack-sommerfeld-io.adoc[]
 
 All images from this stack are always pulled to make sure the latest version is running.
 
@@ -68,9 +68,9 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
 CAUTION: todo ...
 
 === Run Services
-Services are defined in a docker-compose.yml file. The compose files are grouped into folders representing their respective set of usecases.
+Services are defined in a docker compose.yml file. The compose files are grouped into folders representing their respective set of usecases.
 
-Controlling these services is done from host `kobol`. Deploying to the remote node `caprica` is done using DOCKER_HOST environment variable to set up the target engine. link:https://www.docker.com/blog/how-to-deploy-on-remote-docker-hosts-with-docker-compose[Docker Contexts] is another possibility but not used because the test environment `caprica-test` is using DHCP instead of a static IP.
+Controlling these services is done from host `kobol`. Deploying to the remote node `caprica` is done using DOCKER_HOST environment variable to set up the target engine. link:https://www.docker.com/blog/how-to-deploy-on-remote-docker-hosts-with-docker compose[Docker Contexts] is another possibility but not used because the test environment `caprica-test` is using DHCP instead of a static IP.
 
 CAUTION: todo ... how do I run the deployment? Which script? Something from src/main/workstations/caprica ... how do I run the test script?
 

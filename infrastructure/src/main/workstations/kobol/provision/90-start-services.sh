@@ -15,5 +15,5 @@
 (
   echo -e "$LOG_INFO Start containers"
   cd "$HOME/work/repos/sebastian-sommerfeld-io/infrastructure/src/main/workstations/kobol/docker/services/ops" || exit
-  docker-compose up -d
+  docker compose up -d
 )

@@ -34,7 +34,7 @@ echo -e "$LOG_INFO $(vagrant --version)"
 echo -e "$LOG_INFO Install vagrant plugins"
 vagrant plugin install vagrant-cachier
 vagrant plugin install vagrant-vbguest
-vagrant plugin install vagrant-docker-compose
+vagrant plugin install vagrant-docker compose
 
 #echo -e "$LOG_INFO Install packer"
 #sudo apt-get install -y packer
